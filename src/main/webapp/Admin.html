@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Admin</title>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css	">
+<script src="admin.js"></script>
+<style>
+.header-button {
+	color: #fff;
+	border-style: groove;
+	background: #007bff;
+	border-color: #007bff;
+	border-radius: 10px;
+	padding: 10px;
+}
+
+.secondary-block {
+	padding: 10px;
+	background: aliceblue;
+	border-style: groove;
+	border-radius: 10px;
+}
+
+.main-div {
+	padding-top: 4%;
+	margin: 5%;
+	margin-left: 10%;
+	margin-right: 10%;
+	border-style: groove;
+	padding-bottom: 7%;
+	border-radius: 50px;
+}
+
+.main-header{
+    text-align: center;
+    padding-bottom: 15px;
+}
+img {
+	height: 284px;
+	width: 100%;
+}
+</style>
+</head>
+<body style="background: radial-gradient(black, transparent);">
+	<div class="main-div" style="background: white;">
+		<div class="main-header">
+			<h3>Manager</h3>
+		</div>
+		<div class="container">
+			<div class="header-button" onClick="clickPersonalInfo()">Personal
+				Information</div>
+			<div id="employeeInfo"></div>
+		</div>
+		<div class="container">
+			<div class="header-button" onClick="clickReimbursementHeader()">Reimbursement
+				List</div>
+			<div id="employeeInfoTwo"></div>
+		</div>
+		<div class="container">
+			<div class="row" id="reimInfo">
+				<div id="selectedReim" class="col-xs-12 col-md-6"></div>
+				<div id="selectedEmployeeDetails" class="col-xs-12 col-md-6">
+					<div id="imgTest"></div>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="header-button" onClick="clickEmployeeHeader()">Employee
+				List</div>
+			<div id="employeeList"></div>
+		</div>
+		<div class="container">
+			<div>
+				<form action="AdminServlet" method="POST">
+					<input type="hidden" name="command" value="LOGOUT" /> <input
+						class="header-button" style="width: 100%" type="submit"
+						value="Logout" />
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+
+	<script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"></script>
+	<script
+		src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+	<script
+		src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+</body>
+</html>
