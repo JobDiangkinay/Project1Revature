@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
+
 import com.revature.entities.EmployeeDao;
 import com.revature.models.Employee;
 import com.revature.utilities.ConnectionUtil;
@@ -20,34 +22,46 @@ import com.revature.utilities.ConnectionUtil;
 public class LogInServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+	static Logger logger = Logger.getLogger(LogInServlet.class);
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws IOException, ServletException {
 
 		String uName = request.getParameter("userName");
 		String password = request.getParameter("password");
-		System.out.println(uName+password);
 		try {
 			if (logInChecker(uName, password)) {
-				setSession(request,response);
+				setSession(request, response);
 				Employee curEmp = getEmployee(uName);
 				if (curEmp != null) {
 					if (curEmp.getUserType().equals("EMPLOYEE")) {
-						System.out.println(curEmp.getUserType());
-						response.sendRedirect("Employee.html");
+						logger.info("Employee " + uName + " has logged in");
+						String result = "EMPLOYEE";
+						response.setContentType("text/html");
+						response.getWriter().write(result);
+						//response.sendRedirect("Employee.html");
 					} else if (curEmp.getUserType().equals("ADMIN")) {
-						response.sendRedirect("Admin.html");
+						logger.info("Manager " + uName + " has logged in");
+						String result = "ADMIN";
+						response.setContentType("text/html");
+						response.getWriter().write(result);
+						//response.sendRedirect("Admin.html");
 					}
 				}
-
 			} else {
-				response.sendRedirect("default.html");
+				String result = "false";
+				response.setContentType("text/html");
+				response.getWriter().write(result);
+				//response.sendRedirect("default.html");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
 	}
-	
-	public void setSession(HttpServletRequest request, HttpServletResponse response) throws FileNotFoundException, SQLException {
+
+	public void setSession(HttpServletRequest request, HttpServletResponse response)
+			throws FileNotFoundException, SQLException {
 		String name = request.getParameter("userName");
 		Employee curUser = getEmployee(name);
 		HttpSession session = request.getSession(false);

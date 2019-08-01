@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
+
 import com.google.gson.Gson;
 import com.revature.entities.EmployeeDao;
 import com.revature.models.Employee;
@@ -23,6 +25,8 @@ import com.revature.utilities.ConnectionUtil;
  */
 public class EmployeeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
+	static Logger logger = Logger.getLogger(EmployeeServlet.class);
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -38,7 +42,6 @@ public class EmployeeServlet extends HttpServlet {
 					} else if (methodname.equals("loadAllReim")) {
 						displayAllUserReim(session, response);
 					} else if (methodname.equals("newReim")) {
-						
 						submitNewReim(session, request, response);
 					} else if (methodname.equals("updateInfo")) {
 						updateEmployeeInfo(session, request, response);
@@ -79,9 +82,10 @@ public class EmployeeServlet extends HttpServlet {
 
 	public void logOut(HttpSession session, HttpServletResponse response) throws IOException {
 		if (session != null) {
+			String userType = (String) session.getAttribute("userName");
+			logger.info("Employee: " + userType + " has logged out");
 			session.invalidate();
 		}
-		System.out.println("LogOut");
 		response.sendRedirect("default.html");
 	}
 
@@ -122,7 +126,6 @@ public class EmployeeServlet extends HttpServlet {
 		}catch(Exception ex) {
 			newReim = new Reimbursement(userName, doubAmount, newType, newDesc, null);
 		}
-		System.out.println(newReim.toString());
 		boolean status = empDao.submitNewRequest(newReim);
 		connection.close();
 		response.setContentType("text/html");

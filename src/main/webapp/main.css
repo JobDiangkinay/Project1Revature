@@ -1,8 +1,8 @@
 .header-button {
 	color: #fff;
 	border-style: groove;
-	background: #007bff;
-	border-color: #007bff;
+	background: #17a2b8;
+	border-color: #17a2b8;
 	border-radius: 10px;
 	padding: 10px;
 }
@@ -32,8 +32,30 @@
 }
 .div-body{
 	background: white;
+	border-color: #17a2b8;
 }
 img {
 	height: 284px;
 	width: 100%;
+}
+
+.brand-login{
+text-align: center; 
+margin-top: 5%;
+}
+.login-container{
+border-style: groove; 
+border-radius: 10px; 
+padding: 10px; 
+background: aliceblue; 
+width: 30%; 
+margin-left: 34%;"
+}
+.inner-login-container{
+margin: 10px; 
+padding-left: 15%;
+}
+.login-button{
+margin: 10px; 
+width: 74%;
 }

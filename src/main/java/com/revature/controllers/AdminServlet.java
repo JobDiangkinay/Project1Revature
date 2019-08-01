@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
+
 import com.google.gson.Gson;
 import com.revature.entities.EmployeeDao;
 import com.revature.models.Employee;
@@ -23,6 +25,8 @@ import com.revature.utilities.ConnectionUtil;
  */
 public class AdminServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
+	static Logger logger = Logger.getLogger(AdminServlet.class);
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -44,7 +48,6 @@ public class AdminServlet extends HttpServlet {
 					} else if (methodname.equals("loadAllReim")) {
 						displayAllUserReim(response);
 					} else if (methodname.equals("handleReim")) {
-						System.out.println(methodname);
 						String reimId = request.getParameter("reimId");
 						String reimStat = request.getParameter("reimCode");
 						String userName = (String) session.getAttribute("userName");
@@ -55,6 +58,8 @@ public class AdminServlet extends HttpServlet {
 						}
 					}else if (methodname.equals("loadAllEmp")) {
 						displayAllEmployees(response);
+					}else if (methodname.equals("updateInfo")) {
+						updateEmployeeInfo(session, request, response);
 					}
 				}
 				if (commandType != null) {
@@ -64,6 +69,22 @@ public class AdminServlet extends HttpServlet {
 				}
 			}
 		}
+	}
+	
+	public void updateEmployeeInfo(HttpSession session, HttpServletRequest request, HttpServletResponse response)
+			throws IOException {
+		ConnectionUtil connection = new ConnectionUtil();
+		EmployeeDao empDao = new EmployeeDao(connection.getConnection());
+		String userName = (String) session.getAttribute("userName");
+		String editType = request.getParameter("editType");
+		String editValue = request.getParameter("editField");
+		boolean status = empDao.updateEmpInfo(userName, editType, editValue);
+		connection.close();
+		response.setContentType("text/html");
+		if (status)
+			response.getWriter().write("true");
+		else
+			response.getWriter().write("false");
 	}
 
 	public void displayEmployeeInfo(HttpSession session, HttpServletResponse response) throws IOException {
@@ -89,7 +110,6 @@ public class AdminServlet extends HttpServlet {
 	public String generateUserJson(Person curEmp) {
 		Person jsonEmp = curEmp;
 		String stringEmp = new Gson().toJson(jsonEmp);
-		System.out.println(stringEmp);
 		return stringEmp;
 	}
 
@@ -154,13 +174,15 @@ public class AdminServlet extends HttpServlet {
 		}
 		if (isSuccess) {
 			if (status) {
-				String result = "{" + "handleResult" + ":" + "true" + "}";
+				String result = "true";
 				String stringStat = new Gson().toJson(result);
+				logger.info("Reimbursement ID: " + reimId + " has been accepted!");
 				response.setContentType("text/html");
 				response.getWriter().write(stringStat);
 			} else {
-				String result = "{" + "handleResult" + ":" + "false" + "}";
+				String result = "false";
 				String stringStat = new Gson().toJson(result);
+				logger.info("Reimbursement ID: " + reimId + " has been denied!");
 				response.setContentType("text/html");
 				response.getWriter().write(stringStat);
 			}
@@ -169,9 +191,10 @@ public class AdminServlet extends HttpServlet {
 
 	public void logOut(HttpSession session, HttpServletResponse response) throws IOException {
 		if (session != null) {
+			String userType = (String) session.getAttribute("userName");
+			logger.info("Admin: " + userType + " has logged out");
 			session.invalidate();
 		}
-		System.out.println("LogOut");
 		response.sendRedirect("default.html");
 	}
 }
