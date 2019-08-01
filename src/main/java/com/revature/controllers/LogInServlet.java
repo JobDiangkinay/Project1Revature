@@ -61,7 +61,7 @@ public class LogInServlet extends HttpServlet {
 	}
 
 	public void setSession(HttpServletRequest request, HttpServletResponse response)
-			throws FileNotFoundException, SQLException {
+			throws SQLException, IOException {
 		String name = request.getParameter("userName");
 		Employee curUser = getEmployee(name);
 		HttpSession session = request.getSession(false);
@@ -78,7 +78,7 @@ public class LogInServlet extends HttpServlet {
 
 	}
 
-	public boolean logInChecker(String uName, String pass) throws FileNotFoundException, SQLException {
+	public boolean logInChecker(String uName, String pass) throws SQLException, IOException {
 		ConnectionUtil connection = new ConnectionUtil();
 		EmployeeDao empDao = new EmployeeDao(connection.getConnection());
 		boolean checker = empDao.checkLogIn(uName, pass);
@@ -86,7 +86,7 @@ public class LogInServlet extends HttpServlet {
 		return checker;
 	}
 
-	public Employee getEmployee(String uName) throws FileNotFoundException, SQLException {
+	public Employee getEmployee(String uName) throws SQLException, IOException {
 		ConnectionUtil connection = new ConnectionUtil();
 		EmployeeDao empDao = new EmployeeDao(connection.getConnection());
 		Employee curEmp = empDao.getEmployeeObject(uName);

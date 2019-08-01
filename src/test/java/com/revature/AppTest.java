@@ -6,6 +6,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -28,7 +29,7 @@ public class AppTest {
 	}
 
 	@Test
-	public void checkLogIn() throws FileNotFoundException, SQLException {
+	public void checkLogIn() throws SQLException, IOException {
 		ConnectionUtil connectionUtil = new ConnectionUtil();
 		EmployeeDao empDao = new EmployeeDao(connectionUtil.getConnection());
 		boolean correctLogIn = empDao.checkLogIn("JobEmployee", "passjob");
@@ -37,7 +38,7 @@ public class AppTest {
 	}
 
 	@Test
-	public void checkFalseLogIn() throws FileNotFoundException, SQLException {
+	public void checkFalseLogIn() throws SQLException, IOException {
 		ConnectionUtil connectionUtil = new ConnectionUtil();
 		EmployeeDao empDao = new EmployeeDao(connectionUtil.getConnection());
 		boolean falseLogIn = empDao.checkLogIn("JobEmployee", "jobPass");
@@ -46,7 +47,7 @@ public class AppTest {
 	}
 
 	@Test
-	public void getSpecificEmployee() throws FileNotFoundException, SQLException {
+	public void getSpecificEmployee() throws SQLException, IOException {
 		LogInServlet login = new LogInServlet();
 		Employee testEmp = login.getEmployee("JobEmployee");
 		String testEmpFirst = testEmp.getFirstName();
@@ -55,7 +56,7 @@ public class AppTest {
 	}
 
 	@Test
-	public void checkIfReimbursementIsEmpty() throws FileNotFoundException {
+	public void checkIfReimbursementIsEmpty() throws IOException {
 		ConnectionUtil connectionUtil = new ConnectionUtil();
 		EmployeeDao empDao = new EmployeeDao(connectionUtil.getConnection());
 		ArrayList<Reimbursement> allReim = empDao.getAllReim();
@@ -63,7 +64,7 @@ public class AppTest {
 	}
 
 	@Test
-	public void checkIfEmployeeIsEmpty() throws FileNotFoundException {
+	public void checkIfEmployeeIsEmpty() throws IOException {
 		ConnectionUtil connectionUtil = new ConnectionUtil();
 		EmployeeDao empDao = new EmployeeDao(connectionUtil.getConnection());
 		ArrayList<Employee> allEmp = empDao.getAllEmployees();
@@ -71,7 +72,7 @@ public class AppTest {
 	}
 
 	@Test
-	public void checkIfEmployeeReimbursementListReturnsValue() throws FileNotFoundException {
+	public void checkIfEmployeeReimbursementListReturnsValue() throws IOException {
 		ConnectionUtil connectionUtil = new ConnectionUtil();
 		EmployeeDao empDao = new EmployeeDao(connectionUtil.getConnection());
 		ArrayList<Reimbursement> allEmpReim = empDao.getEmployeeReim("JobEmployee");
@@ -79,7 +80,7 @@ public class AppTest {
 	}
 	
 	@Test
-	public void getSpecificAdmin() throws FileNotFoundException, SQLException {
+	public void getSpecificAdmin() throws SQLException, IOException {
 		LogInServlet login = new LogInServlet();
 		Employee testEmp = login.getEmployee("JobAdmin");
 		String testEmpFirst = testEmp.getFirstName();

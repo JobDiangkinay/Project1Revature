@@ -101,7 +101,7 @@ public class EmployeeServlet extends HttpServlet {
 		return stringReim;
 	}
 
-	public Employee getEmployee(String uName) throws FileNotFoundException, SQLException {
+	public Employee getEmployee(String uName) throws SQLException, IOException {
 		ConnectionUtil connection = new ConnectionUtil();
 		EmployeeDao empDao = new EmployeeDao(connection.getConnection());
 		Employee curEmp = empDao.getEmployeeObject(uName);
@@ -151,7 +151,7 @@ public class EmployeeServlet extends HttpServlet {
 			response.getWriter().write("false");
 	}
 
-	public ArrayList<Reimbursement> getReimbursement(HttpSession session) throws FileNotFoundException {
+	public ArrayList<Reimbursement> getReimbursement(HttpSession session) throws IOException {
 		ConnectionUtil connection = new ConnectionUtil();
 		EmployeeDao empDao = new EmployeeDao(connection.getConnection());
 		String curUserName = (String) session.getAttribute("userName");

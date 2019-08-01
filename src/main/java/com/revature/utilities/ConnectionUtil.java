@@ -1,5 +1,6 @@
 package com.revature.utilities;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -15,24 +16,21 @@ public class ConnectionUtil {
     private Connection connection;
     private String url, user, password;
 
-    public ConnectionUtil() throws FileNotFoundException {
+    public ConnectionUtil() throws IOException {
         try {
         	Class.forName("org.postgresql.Driver");
             Properties properties = new Properties();
-            /*
-            properties.load(new FileReader("application.properties"));
-            System.out.println("JobTesting");
+            properties.load(new FileReader(
+                    new File(
+                        getClass().getClassLoader().getResource("application.properties").getFile()
+                    )
+                )
+            );
             this.url = properties.getProperty("url");
             this.user = properties.getProperty("user");
             this.password = properties.getProperty("password");
-          
-            if(this.url != null) {
-System.out.println("URL is:"+url);
-            }else {
-            	System.out.println("URL not found");
-            }
-            Class.forName("org.postgresql.Driver");*/
-            this.connection = DriverManager.getConnection("jdbc:postgresql://192.168.99.100:5432/projectone", "projectone", "password");
+            this.connection = DriverManager.getConnection(this.url, this.user, this.password);
+            //this.connection = DriverManager.getConnection("jdbc:postgresql://192.168.99.100:5432/projectone", "projectone", "password");
             //this.connection = DriverManager.getConnection(this.url,this.user,this.password);
            
         } catch (SQLException e) {

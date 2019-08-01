@@ -99,7 +99,7 @@ public class AdminServlet extends HttpServlet {
 		}
 	}
 
-	public Employee getEmployee(String uName) throws FileNotFoundException, SQLException {
+	public Employee getEmployee(String uName) throws SQLException, IOException {
 		ConnectionUtil connection = new ConnectionUtil();
 		EmployeeDao empDao = new EmployeeDao(connection.getConnection());
 		Employee curEmp = empDao.getEmployeeObject(uName);
@@ -144,7 +144,7 @@ public class AdminServlet extends HttpServlet {
 		return stringReim;
 	}
 
-	public ArrayList<Reimbursement> getReimbursement() throws FileNotFoundException {
+	public ArrayList<Reimbursement> getReimbursement() throws IOException {
 		ConnectionUtil connection = new ConnectionUtil();
 		EmployeeDao empDao = new EmployeeDao(connection.getConnection());
 		ArrayList<Reimbursement> allReim = empDao.getAllReim();
@@ -152,7 +152,7 @@ public class AdminServlet extends HttpServlet {
 		return allReim;
 	}
 	
-	public ArrayList<Employee> getAllEmployees() throws FileNotFoundException {
+	public ArrayList<Employee> getAllEmployees() throws IOException {
 		ConnectionUtil connection = new ConnectionUtil();
 		EmployeeDao empDao = new EmployeeDao(connection.getConnection());
 		ArrayList<Employee> allReim = empDao.getAllEmployees();
